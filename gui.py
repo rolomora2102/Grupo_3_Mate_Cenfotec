@@ -40,16 +40,17 @@ def generar_tabla():
             resultado_textbox.delete(1.0, tk.END)
             resultado_textbox.insert(tk.END, tabla_verdad)
             resultado_textbox.config(state=tk.DISABLED)
+            
     except ValueError as e:
         messagebox.showerror("Error", str(e))
 
 def iniciar_gui():
-    global expresion_entry, variables_entry, resultado_textbox
+    global expresion_entry, variables_entry, resultado_textbox, root
     
     # Crear la ventana principal
     root = tk.Tk()
     root.title("Truth Table Generator")
-    root.geometry("800x600")  # Aumentar el tamaño de la ventana
+    root.geometry("900x600")  # Tamaño inicial adecuado
     root.configure(bg='#F0F0F0')  # Fondo suave
     
     # Estilos ttk
@@ -81,12 +82,12 @@ def iniciar_gui():
     ttk.Label(frame, text="Result:").grid(row=5, column=0, sticky=tk.W, pady=5)
 
     # Agregar cuadro de texto con scroll horizontal y vertical
-    resultado_textbox = scrolledtext.ScrolledText(frame, width=100, height=20, wrap=tk.NONE, font=("Courier", 10))
-    resultado_textbox.grid(row=6, column=0, pady=5)
+    resultado_textbox = scrolledtext.ScrolledText(frame, wrap=tk.NONE, font=("Courier", 10))
+    resultado_textbox.grid(row=6, column=0, pady=5, sticky=tk.NSEW)
 
-    # Agregar scroll horizontal
-    resultado_textbox.config(xscrollcommand=lambda *args: resultado_textbox.xview(*args))
-    resultado_textbox.config(yscrollcommand=lambda *args: resultado_textbox.yview(*args))
+    # Permitir desplazamiento horizontal y vertical
+    frame.grid_rowconfigure(6, weight=1)
+    frame.grid_columnconfigure(0, weight=1)
 
     # Iniciar el bucle de la interfaz gráfica
     root.mainloop()
